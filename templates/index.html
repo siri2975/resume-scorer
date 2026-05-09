@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResumeScore — Match Your Resume to Any Job</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-mark">RS</span>
+        <span class="logo-name">ResumeScore</span>
+      </div>
+      <div class="nav-badge">Free · No Sign-up Required</div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <p class="hero-eyebrow">AI Resume Checker</p>
+        <h1 class="hero-h1">Is your resume<br><em>good enough?</em></h1>
+        <p class="hero-body">Upload your resume and paste any job description. Get an instant match score, find missing skills, and receive actionable fixes.</p>
+        <ul class="trust-list">
+          <li>PDF &amp; DOCX supported</li>
+          <li>Results in seconds</li>
+          <li>No account needed</li>
+        </ul>
+      </div>
+      <div class="hero-right">
+        <div class="preview-card">
+          <p class="preview-label">Resume Score</p>
+          <div class="preview-gauge">
+            <svg viewBox="0 0 200 120" fill="none">
+              <path d="M 24 108 A 76 76 0 0 1 176 108" stroke="#e8e8e8" stroke-width="10" stroke-linecap="round" fill="none"/>
+              <path d="M 24 108 A 76 76 0 0 1 176 108" stroke="#1a9e6e" stroke-width="10" stroke-linecap="round" fill="none" stroke-dasharray="178 238" stroke-dashoffset="0"/>
+            </svg>
+            <div class="preview-score-val">92<span>/100</span></div>
+          </div>
+          <div class="preview-checks">
+            <div class="pcheck green">✓ Skills Match</div>
+            <div class="pcheck green">✓ Keyword Coverage</div>
+            <div class="pcheck amber">⚠ Experience Level</div>
+            <div class="pcheck red">✕ 4 Missing Skills</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TOOL ── -->
+  <section class="tool">
+    <div class="tool-inner">
+
+      <div class="tool-steps">
+        <div class="tstep active" id="s1"><span>01</span> Upload Resume</div>
+        <div class="tstep-line"></div>
+        <div class="tstep" id="s2"><span>02</span> Job Description</div>
+        <div class="tstep-line"></div>
+        <div class="tstep" id="s3"><span>03</span> Get Score</div>
+      </div>
+
+      <div class="tool-grid">
+        <div class="tool-panel">
+          <div class="tpanel-label">Your Resume</div>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="resumeFile" accept=".pdf,.docx,.doc" hidden />
+            <div class="drop-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.4">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M9 9h6M9 13h6M9 17h4"/>
+                <path d="M15 3v4h4"/>
+              </svg>
+            </div>
+            <p class="drop-main">Drop your resume here</p>
+            <p class="drop-sub">PDF or DOCX · Max 5 MB</p>
+            <button class="btn-choose" onclick="document.getElementById('resumeFile').click()">Choose File</button>
+            <div class="drop-chosen" id="dropChosen" style="display:none;"></div>
+          </div>
+        </div>
+        <div class="tool-panel">
+          <div class="tpanel-label">
+            Job Description
+            <span id="jdWordCount" class="wc">0 words</span>
+          </div>
+          <textarea
+            id="jdText"
+            class="jd-area"
+            placeholder="Paste the full job description here.&#10;&#10;Include requirements, responsibilities, and qualifications for the most accurate analysis."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="tool-footer">
+        <button class="btn-check" id="scoreBtn" onclick="submitScore()">
+          Check My Score
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+        
+      </div>
+
+      <div class="loading-wrap" id="loading" style="display:none;">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <p class="loading-msg">Analyzing your resume<span class="dots"></span></p>
+      </div>
+
+      <div class="err-box" id="errBox" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ── RESULTS ── -->
+  <section class="results" id="results" style="display:none;">
+    <div class="results-inner">
+
+      <!-- Score band -->
+      <div class="score-band">
+        <div class="score-band-left">
+          <p class="score-eyebrow">Overall Match Score</p>
+          <div class="score-display">
+            <span class="score-num" id="rScore">—</span>
+            <span class="score-of">/100</span>
+            <span class="score-label" id="rLabel">—</span>
+          </div>
+          <p class="score-file" id="rFile"></p>
+        </div>
+        <div class="score-band-gauge">
+          <svg class="res-gauge-svg" viewBox="0 0 260 160" fill="none">
+            <path d="M 30 145 A 100 100 0 0 1 230 145" stroke="#ececec" stroke-width="14" stroke-linecap="round"/>
+            <path id="resFill" d="M 30 145 A 100 100 0 0 1 230 145" stroke="#1a9e6e" stroke-width="14" stroke-linecap="round" stroke-dasharray="0 314" style="transition:stroke-dasharray 1.1s cubic-bezier(.4,0,.2,1)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Breakdown -->
+      <div class="breakdown-card">
+        <h2 class="card-heading">Section Breakdown</h2>
+        <div id="breakdownRows"></div>
+      </div>
+
+      <!-- Skills -->
+      <div class="skills-cols">
+        <div class="skills-col matched-col">
+          <div class="skills-col-header">
+            <span class="skills-icon si-green">✓</span>
+            <div>
+              <div class="skills-col-title">Matched Skills</div>
+              <div class="skills-col-sub" id="mCount"></div>
+            </div>
+          </div>
+          <div class="tag-cloud" id="mTags"></div>
+        </div>
+        <div class="skills-col missing-col">
+          <div class="skills-col-header">
+            <span class="skills-icon si-red">✕</span>
+            <div>
+              <div class="skills-col-title">Missing Skills</div>
+              <div class="skills-col-sub" id="xCount"></div>
+            </div>
+          </div>
+          <div class="tag-cloud" id="xTags"></div>
+        </div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="sugg-section">
+        <h2 class="card-heading">How to Improve Your Resume</h2>
+        <div id="suggCards"></div>
+      </div>
+
+      <!-- Bonus -->
+      <div class="bonus-strip" id="bonusStrip">
+        <div class="bonus-strip-head">
+          <span class="bonus-star">★</span>
+          <div>
+            <div class="bonus-title">Bonus Skills You Bring</div>
+            <div class="bonus-sub">Present in your resume but not required by this role</div>
+          </div>
+        </div>
+        <div class="tag-cloud" id="bTags"></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-strip" id="statsStrip"></div>
+
+      <div class="recheck-row">
+        <button class="btn-recheck" onclick="resetTool()">← Analyze Another Resume</button>
+      </div>
+
+    </div>
+  </section>
+
+ 
+
+<script>
+// ── Upload UX ─────────────────────────────────────────────────────────────────
+const fileInput  = document.getElementById("resumeFile");
+const dropZone   = document.getElementById("dropZone");
+const dropChosen = document.getElementById("dropChosen");
+
+fileInput.addEventListener("change", () => {
+  if (fileInput.files[0]) setFile(fileInput.files[0].name);
+});
+dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("dz-over"); });
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dz-over"));
+dropZone.addEventListener("drop", e => {
+  e.preventDefault(); dropZone.classList.remove("dz-over");
+  const f = e.dataTransfer.files[0];
+  if (f) { fileInput.files = e.dataTransfer.files; setFile(f.name); }
+});
+function setFile(name) {
+  dropChosen.textContent = "📄 " + name;
+  dropChosen.style.display = "block";
+  dropZone.classList.add("dz-chosen");
+  document.getElementById("s2").classList.add("active");
+}
+
+// ── Word count ────────────────────────────────────────────────────────────────
+document.getElementById("jdText").addEventListener("input", function () {
+  const n = this.value.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById("jdWordCount").textContent = n + " words";
+});
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+async function submitScore() {
+  const file = fileInput.files[0];
+  const jd   = document.getElementById("jdText").value.trim();
+  if (!file) return setErr("Please upload a resume file.");
+  if (!jd)   return setErr("Please paste the job description.");
+  if (jd.length < 50) return setErr("The job description is too short — paste the full text.");
+
+  clearErr();
+  document.getElementById("results").style.display = "none";
+  document.getElementById("loading").style.display  = "block";
+  document.getElementById("scoreBtn").disabled = true;
+  document.getElementById("s3").classList.add("active");
+
+  let p = 0;
+  const fill = document.getElementById("progressFill");
+  const t = setInterval(() => { p = Math.min(p + Math.random() * 9, 88); fill.style.width = p + "%"; }, 200);
+
+  const fd = new FormData();
+  fd.append("file", file); fd.append("jd", jd);
+
+  try {
+    const res  = await fetch("/score", { method: "POST", body: fd });
+    const data = await res.json();
+    clearInterval(t); fill.style.width = "100%";
+    if (!res.ok) { setErr(data.error || "Something went wrong."); return; }
+    setTimeout(() => renderResults(data), 350);
+  } catch(e) {
+    clearInterval(t);
+    setErr("Network error. Make sure the Flask server is running.");
+  } finally {
+    setTimeout(() => {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("scoreBtn").disabled = false;
+      fill.style.width = "0%";
+    }, 700);
+  }
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+const sectionLabels = {
+  skills_match: "Skills Match",
+  keyword_coverage: "Keyword Coverage",
+  experience_alignment: "Experience Alignment"
+};
+
+function renderResults(d) {
+  const score = d.overall_score, label = d.score_label;
+
+  document.getElementById("rScore").textContent = score;
+  document.getElementById("rFile").textContent  = d.filename ? "File: " + d.filename : "";
+  const lEl = document.getElementById("rLabel");
+  lEl.textContent = label;
+  lEl.className = "score-label sl-" + label.toLowerCase();
+
+  // Gauge
+  const arcLen = 314, filled = (score / 100) * arcLen;
+  const gEl = document.getElementById("resFill");
+  const gColor = score >= 80 ? "#1a9e6e" : score >= 60 ? "#2563eb" : score >= 40 ? "#d97706" : "#dc2626";
+  gEl.style.stroke = gColor;
+  gEl.style.strokeDasharray = "0 " + arcLen;
+  setTimeout(() => gEl.style.strokeDasharray = filled + " " + arcLen, 100);
+
+  // Breakdown
+  const bRows = document.getElementById("breakdownRows");
+  bRows.innerHTML = "";
+  for (const [k, v] of Object.entries(d.section_scores)) {
+    const s = v.score;
+    const cls = s >= 75 ? "bf-green" : s >= 50 ? "bf-amber" : "bf-red";
+    bRows.innerHTML += `
+      <div class="brow">
+        <div class="brow-label">${sectionLabels[k] || k}</div>
+        <div class="brow-track">
+          <div class="brow-fill ${cls}" style="width:0" data-w="${s}"></div>
+        </div>
+        <div class="brow-num">${s}<span>/100</span></div>
+      </div>
+      <p class="brow-reason">${v.reason}</p>`;
+  }
+  setTimeout(() => {
+    document.querySelectorAll(".brow-fill").forEach(b => b.style.width = b.dataset.w + "%");
+  }, 200);
+
+  // Skills
+  const m = d.matched_skills || [], x = d.missing_skills || [];
+  document.getElementById("mCount").textContent = m.length + " skills";
+  document.getElementById("xCount").textContent = x.length + " skills";
+  document.getElementById("mTags").innerHTML = m.length
+    ? m.map(s => `<span class="tag tg-green">${s}</span>`).join("")
+    : `<em class="empty-em">None found</em>`;
+  document.getElementById("xTags").innerHTML = x.length
+    ? x.map(s => `<span class="tag tg-red">${s}</span>`).join("")
+    : `<em class="empty-em">No gaps — great match!</em>`;
+
+  // Suggestions
+  const sg = d.suggestions || [];
+  document.getElementById("suggCards").innerHTML = sg.length
+    ? sg.map((s, i) => `
+        <div class="sugg-card">
+          <div class="sugg-meta">
+            <span class="sugg-n">${String(i+1).padStart(2,"0")}</span>
+            <span class="sugg-badge">${s.section}</span>
+          </div>
+          <p class="sugg-problem">${s.problem}</p>
+          <p class="sugg-fix">${s.suggestion}</p>
+        </div>`).join("")
+    : `<em class="empty-em">No major issues found — your resume looks strong!</em>`;
+
+  // Bonus
+  const b = d.bonus_skills || [];
+  document.getElementById("bTags").innerHTML = b.length
+    ? b.map(s => `<span class="tag tg-blue">${s}</span>`).join("")
+    : `<em class="empty-em">None detected</em>`;
+
+  // Stats
+  const st = d.stats || {};
+  document.getElementById("statsStrip").innerHTML = `
+    <div class="stat-item"><div class="stat-num">${st.resume_keyword_count}</div><div class="stat-lbl">Resume keywords</div></div>
+    <div class="stat-item"><div class="stat-num">${st.jd_keyword_count}</div><div class="stat-lbl">JD keywords</div></div>
+    <div class="stat-item"><div class="stat-num">${st.matched_count}</div><div class="stat-lbl">Matched</div></div>
+    <div class="stat-item"><div class="stat-num">${st.missing_count}</div><div class="stat-lbl">Missing</div></div>`;
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+}
+
+function setErr(msg) {
+  const b = document.getElementById("errBox");
+  b.textContent = msg; b.style.display = "block";
+}
+function clearErr() { document.getElementById("errBox").style.display = "none"; }
+function resetTool() {
+  document.getElementById("results").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

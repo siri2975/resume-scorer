@@ -1,0 +1,24 @@
+{
+  "scoring": {
+    "weights": {
+      "skills_match": 0.50,
+      "keyword_coverage": 0.30,
+      "experience_keywords": 0.20
+    },
+    "thresholds": {
+      "poor": 40,
+      "fair": 60,
+      "good": 80,
+      "excellent": 100
+    }
+  },
+  "upload": {
+    "allowed_extensions": ["pdf", "docx", "doc"],
+    "max_file_size_mb": 5
+  },
+  "flask": {
+    "debug": true,
+    "port": 5000,
+    "upload_folder": "uploads"
+  }
+}

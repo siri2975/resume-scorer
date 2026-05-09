@@ -1,0 +1,76 @@
+{
+  "programming_languages": [
+    "Python", "JavaScript", "TypeScript", "Java", "C", "C++", "C#", "Go",
+    "Rust", "Ruby", "PHP", "Swift", "Kotlin", "Scala", "R", "MATLAB",
+    "Perl", "Shell", "Bash", "PowerShell", "SQL", "PL/SQL", "T-SQL",
+    "Dart", "Elixir", "Haskell", "Lua", "Assembly", "COBOL", "Fortran"
+  ],
+  "web_frontend": [
+    "HTML", "CSS", "React", "Angular", "Vue.js", "Next.js", "Nuxt.js",
+    "Svelte", "jQuery", "Bootstrap", "Tailwind CSS", "Material UI",
+    "Redux", "Webpack", "Vite", "Babel", "SASS", "LESS", "GraphQL",
+    "REST API", "WebSockets", "PWA", "Responsive Design", "Accessibility"
+  ],
+  "web_backend": [
+    "Node.js", "Express.js", "Django", "Flask", "FastAPI", "Spring Boot",
+    "Laravel", "Ruby on Rails", "ASP.NET", "Gin", "Fiber", "NestJS",
+    "Microservices", "gRPC", "REST", "SOAP", "OAuth", "JWT", "API Design"
+  ],
+  "databases": [
+    "MySQL", "PostgreSQL", "SQLite", "MongoDB", "Redis", "Cassandra",
+    "Elasticsearch", "DynamoDB", "Firebase", "Oracle", "MS SQL Server",
+    "MariaDB", "CouchDB", "Neo4j", "InfluxDB", "Supabase", "Prisma",
+    "SQLAlchemy", "Mongoose", "Hibernate", "ORM", "Database Design",
+    "Database Optimization", "Indexing", "Stored Procedures"
+  ],
+  "cloud_devops": [
+    "AWS", "Azure", "Google Cloud", "GCP", "Docker", "Kubernetes",
+    "Terraform", "Ansible", "Helm", "Jenkins", "GitHub Actions", "GitLab CI",
+    "CircleCI", "Travis CI", "CI/CD", "DevOps", "Infrastructure as Code",
+    "Linux", "Ubuntu", "CentOS", "Nginx", "Apache", "Load Balancing",
+    "Serverless", "Lambda", "EC2", "S3", "RDS", "CloudFormation",
+    "Monitoring", "Prometheus", "Grafana", "ELK Stack", "Datadog"
+  ],
+  "data_science_ml": [
+    "Machine Learning", "Deep Learning", "Neural Networks", "NLP",
+    "Computer Vision", "Data Science", "Data Analysis", "Data Engineering",
+    "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy",
+    "Matplotlib", "Seaborn", "Jupyter", "Apache Spark", "Hadoop",
+    "ETL", "Data Warehouse", "Data Lake", "Feature Engineering",
+    "Model Deployment", "MLOps", "A/B Testing", "Statistics",
+    "Regression", "Classification", "Clustering", "Reinforcement Learning",
+    "Transformer", "BERT", "GPT", "LLM", "Prompt Engineering",
+    "OpenCV", "YOLO", "Hugging Face"
+  ],
+  "mobile": [
+    "Android", "iOS", "React Native", "Flutter", "Xamarin", "Ionic",
+    "Swift UI", "Jetpack Compose", "Mobile Development", "App Store",
+    "Play Store", "Firebase", "Push Notifications"
+  ],
+  "tools_practices": [
+    "Git", "GitHub", "GitLab", "Bitbucket", "Jira", "Confluence",
+    "Agile", "Scrum", "Kanban", "TDD", "BDD", "Unit Testing",
+    "Integration Testing", "Selenium", "Jest", "PyTest", "Mocha",
+    "Code Review", "Pair Programming", "Design Patterns", "SOLID",
+    "Clean Code", "Refactoring", "Technical Documentation",
+    "Postman", "Swagger", "OpenAPI", "Figma", "Linux Administration"
+  ],
+  "security": [
+    "Cybersecurity", "Penetration Testing", "OWASP", "Encryption",
+    "SSL", "TLS", "VPN", "Firewall", "SIEM", "SOC", "IAM",
+    "Zero Trust", "Vulnerability Assessment", "Security Auditing",
+    "GDPR", "Compliance", "Network Security"
+  ],
+  "soft_skills": [
+    "Communication", "Leadership", "Teamwork", "Problem Solving",
+    "Critical Thinking", "Time Management", "Adaptability",
+    "Collaboration", "Mentoring", "Project Management",
+    "Stakeholder Management", "Presentation Skills", "Negotiation"
+  ],
+  "management_business": [
+    "Product Management", "Project Management", "Business Analysis",
+    "Requirements Gathering", "Roadmap Planning", "OKRs", "KPIs",
+    "Budget Management", "Risk Management", "Vendor Management",
+    "Strategic Planning", "Change Management", "PMP", "PRINCE2"
+  ]
+}
