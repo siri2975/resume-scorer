@@ -3,7 +3,7 @@
 
 A web application that compares your resume against any job description and gives you an instant match score, identifies missing skills, and provides actionable suggestions to improve your resume.
 
-🔗 **Live Demo:** https://resume-scorer-qbtc.onrender.com
+🔗 **Live Demo:** https://resume-scorer-qbtc.onrender.com/
 
 ---
 
